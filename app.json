@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "autobook",
+    "slug": "autobook",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "autobook"
+}
