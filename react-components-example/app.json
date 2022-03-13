@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "react-components-example",
+    "slug": "react-components-example",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "react-components-example"
+}

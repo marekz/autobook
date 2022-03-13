@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "pogodynka-react-app",
+    "slug": "pogodynka-react-app",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "pogodynka-react-app"
+}
