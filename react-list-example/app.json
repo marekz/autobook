@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "react-list-example",
+    "slug": "react-list-example",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "react-list-example"
+}
