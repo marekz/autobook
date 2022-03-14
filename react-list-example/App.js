@@ -1,4 +1,4 @@
 import ProstaLista from "./ProstaLista";
-import ListaKsiazekTest from "./ListaKsiazekTest";
+import ListaKsiazek from "./ListaKsiazek";
 
-export default ListaKsiazekTest;
+export default ListaKsiazek;

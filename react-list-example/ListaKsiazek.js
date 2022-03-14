@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import { StyleSheet, Text, View, Image, FlatList } from "react-native";
 import Ksiazka from "./Ksiazka";
+import NYT from "./NYT";
 
 const testoweKsiazki = [
     {
@@ -17,10 +18,14 @@ const testoweKsiazki = [
     }
 ];
 
-export default class ListaKsiazekTest extends Component {
+export default class ListaKsiazek extends Component {
     constructor(props) {
         super(props);
-        this.state = { dane: this._dodajKluczeDoKsiazek(testoweKsiazki) }
+        this.state = { dane: [] };
+    }
+
+    componentDidMount() {
+        this._odswiezDane();
     }
 
     _renderujElement = ({ item }) => {
@@ -36,6 +41,12 @@ export default class ListaKsiazekTest extends Component {
     _dodajKluczeDoKsiazek = ksiazki => {
         return ksiazki.map(ksiazka => {
             return Object.assign(ksiazka, { key: ksiazka.title });
+        });
+    };
+
+    _odswiezDane = () => {
+        NYT.pobierzKsiazki().then(ksiazki => {
+           this.setState({ dane: this._dodajKluczeDoKsiazek(ksiazki) });
         });
     };
 
