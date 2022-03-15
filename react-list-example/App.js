@@ -1,4 +1,4 @@
 import ProstaLista from "./ProstaLista";
-import ListaKsiazek from "./ListaKsiazek";
+import ListaKsiazekSekcje from "./ListaKsiazekSekcje";
 
-export default ListaKsiazek;
+export default ListaKsiazekSekcje;
