@@ -5,12 +5,16 @@ function kodUrl(kod) {
     return `${ADRES_API}q=${kod}&units=metric&APPID=${KLUCZ_API}&lang=pl`;
 }
 
-function pobierzPrognoze(kod) {
-    return fetch(kodUrl(kod))
+function szerDlaUrl(szer, dlu) {
+    return `${ADRES_API}lat=${szer}&lon=${dlu}&units=metric&APPID=${KLUCZ_API}&lang=pl`
+}
+
+function pobierzPrognoze(url) {
+    return fetch(kodUrl(url))
         .then(response => response.json())
         .then(responseJSON => {
             return {
-                glowne: responseJSON.weather[0].main,
+                glowny: responseJSON.weather[0].main,
                 opis: responseJSON.weather[0].description,
                 temp: responseJSON.main.temp
             };
@@ -20,4 +24,14 @@ function pobierzPrognoze(kod) {
         });
 }
 
-export default { pobierzPrognoze: pobierzPrognoze };
+function pobierzPrognozeKod(kod) {
+    return pobierzPrognoze(kodUrl(kod));
+}
+
+function pobierzPrognozeWspolrzedne(szer, dlu) {
+    return pobierzPrognoze(szerDlaUrl(szer, dlu))
+}
+
+export default { pobierzPrognozeKod: pobierzPrognozeKod,
+    pobierzPrognozeWspolrzedne: pobierzPrognozeWspolrzedne
+};
