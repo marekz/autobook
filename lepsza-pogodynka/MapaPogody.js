@@ -2,15 +2,16 @@ const KLUCZ_API = "bbeb34ebf60ad50f7893e7440a1e2b0b";
 const ADRES_API = "https://api.openweathermap.org/data/2.5/weather?";
 
 function kodUrl(kod) {
-    return `${ADRES_API}q=${kod}&units=metric&APPID=${KLUCZ_API}&lang=pl`;
+    let url = `${ADRES_API}q=${kod}&units=metric&APPID=${KLUCZ_API}&lang=pl`;
+    return url;
 }
-
 function szerDlaUrl(szer, dlu) {
-    return `${ADRES_API}lat=${szer}&lon=${dlu}&units=metric&APPID=${KLUCZ_API}&lang=pl`
+    let url = `${ADRES_API}lat=${szer}&lon=${dlu}&units=metric&APPID=${KLUCZ_API}&lang=pl`
+    return url;
 }
 
 function pobierzPrognoze(url) {
-    return fetch(kodUrl(url))
+    return fetch(url)
         .then(response => response.json())
         .then(responseJSON => {
             return {

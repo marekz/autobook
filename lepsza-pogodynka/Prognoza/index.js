@@ -6,7 +6,7 @@ export default class Prognoza extends Component {
         return (
             <View style={styles.kontener}>
                 <Text style={styles.duzyTekst}>
-                    {this.props.glowne}
+                    {this.props.glowny}
                 </Text>
                 <Text style={styles.glownyTekst}>
                     Bieżące warunki: {this.props.opis}

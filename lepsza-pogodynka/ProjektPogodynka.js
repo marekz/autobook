@@ -12,7 +12,6 @@ export default class ProjektPogodynka extends Component {
 
     _handleTextChange = event => {
         let kod = event.nativeEvent.text;
-        console.log(kod);
         MapaPogody.pobierzPrognozeKod(kod).then(prognoza => {
             this.setState({ prognoza: prognoza });
         });
