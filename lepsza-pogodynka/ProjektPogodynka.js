@@ -1,21 +1,56 @@
-import React, {Component} from "react";
-import MapaPogody from "./MapaPogody";
+import React, { Component } from "react";
+import {
+    StyleSheet,
+    Text,
+    View,
+    TextInput,
+    Image,
+    ImageBackground
+} from "react-native";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import Prognoza from "./Prognoza";
 import PrzyciskLokalizacji from "./PrzyciskLokalizacji";
-import {StyleSheet, Text, View, TextInput, ImageBackground} from "react-native";
+import styleTekstu from "./styles/typografia";
+
+const KLUCZ_MAGAZYNY = "@LepszaPogodynka:kod";
+
+import MapaPogody from "./MapaPogody";
+
+import FotoBackground from "./FotoBackground/lokalny_obraz";
+import FotoTlo from "./FotoBackground/lokalny_obraz";
+// import FotoBackground from "./FotoBackground";
 
 export default class ProjektPogodynka extends Component {
     constructor(props) {
         super(props);
-        this.state = { kod: "", prognoza: null };
+        this.state = { prognoza: null };
     };
 
-    _handleTextChange = event => {
-        let kod = event.nativeEvent.text;
+    componentDidMount() {
+        AsyncStorage
+            .getItem(KLUCZ_MAGAZYNY)
+            .then(wartosc => {
+                if (wartosc !== null) {
+                    this._pobierzPrognozeDlaKodu(wartosc);
+                }
+            })
+            .catch(error => console.error("Błąd AsyncStorage: " + error.message ))
+            .done();
+    }
+
+    _pobierzPrognozeDlaKodu = kod => {
+        //Zapiszkod pocztowy
+        AsyncStorage
+            .setItem(KLUCZ_MAGAZYNY, kod)
+            .then(() => console.log("Zapisano na dysku: " + kod))
+            .catch(error => console.log("Błąd AsyncStorage: " + error.message))
+            .done();
+
         MapaPogody.pobierzPrognozeKod(kod).then(prognoza => {
             this.setState({ prognoza: prognoza });
         });
-        this.setState({ kod: event.nativeEvent.text });
     };
 
     _pobierzPrognozeDlaWspolrzednych = (lat, lon) => {
@@ -24,48 +59,57 @@ export default class ProjektPogodynka extends Component {
         });
     };
 
+    _zmianaTekstu = event => {
+        let kod = event.nativeEvent.text;
+        this._pobierzPrognozeDlaKodu(kod);
+    };
+
+    // _handleTextChange = event => {
+    //     let kod = event.nativeEvent.text;
+    //     MapaPogody.pobierzPrognozeKod(kod).then(prognoza => {
+    //         this.setState({ prognoza: prognoza });
+    //     });
+    //     this.setState({ kod: event.nativeEvent.text });
+    // };
+
     render() {
         let tresc = null;
         if (this.state.prognoza !== null) {
             tresc = (
-                <Prognoza
-                    glowny = { this.state.prognoza.glowny }
-                    opis = { this.state.prognoza.opis }
-                    temp = { this.state.prognoza.temp }
-                />
+                <View style={styles.wiersz}>
+                    <Prognoza
+                        opis = { this.state.prognoza.opis }
+                        temp = { this.state.prognoza.temp }
+                    />
+                </View>
             );
         }
 
         return (
-            <View style={styles.kontener}>
-                <ImageBackground
-                    source={require('./img/kwiaty.png')}
-                    resizeMode="cover"
-                    style={ styles.tlo }
-                >
-                    <View style={styles.nakladka}>
-                        <View style={styles.wiersz}>
-                            <Text style={styles.glownyTekst}>
-                                Bieżąca pogoda dla:
-                            </Text>
+            <FotoTlo>
+                <View style={styles.nakladka}>
+                    <View style={styles.wiersz}>
+                        <Text style={styles.glownyTekst}>
+                            Bieżąca pogoda dla:
+                        </Text>
 
-                            <View style={styles.kontenerKodu}>
-                                <TextInput
-                                    style={[ styles.kodPocztowy, styles.glownyTekst ]}
-                                    onSubmitEditing={this._handleTextChange}
-                                    underlineColorAndroid="transparent"
-                                />
-                            </View>
-                        </View>
-                        <View style={styles.wiersz}>
-                            <PrzyciskLokalizacji
-                                onGetCoords={this._pobierzPrognozeDlaWspolrzednych}
+                        <View style={styles.kontenerKodu}>
+                            <TextInput
+                                style={[ styles.glownyTekst, styles.kodPocztowy ]}
+                                onSubmitEditing={this._zmianaTekstu}
+                                underlineColorAndroid="transparent"
                             />
                         </View>
-                        {tresc}
                     </View>
-                </ImageBackground>
-            </View>
+
+                    <View style={styles.wiersz}>
+                        <PrzyciskLokalizacji
+                            onGetCoords={this._pobierzPrognozeDlaWspolrzednych}
+                        />
+                    </View>
+                    {tresc}
+                </View>
+            </FotoTlo>
         );
     }
 }
@@ -73,40 +117,22 @@ export default class ProjektPogodynka extends Component {
 const baseFontSize=16;
 
 const styles = StyleSheet.create({
-    kontener: {
-        flex: 1
-    },
-    tlo: {
-        flex: 1,
-        flexDirection: "column"
-    },
-    nakladka: {
-        paddingTop: 5,
-        backgroundColor: "#000000",
-        opacity: 0.5,
-        flexDirection: "column",
-        alignItems: "center"
-    },
+    nakladka: {backgroundColor: "rgba(0,0,0,0.1)"},
     wiersz: {
         flexDirection: "row",
         flexWrap: "nowrap",
-        alignItems: "flex-start",
-        padding: 30
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 24
     },
     kontenerKodu: {
-        height: (baseFontSize + 25),
         borderBottomColor: "#DDDDDD",
         borderBottomWidth: 1,
         marginLeft: 5,
-        marginTop: -6
+        marginTop: 3,
+        width: 80,
+        height: styleTekstu.podstawowyRozmiarCzcionki * 2,
+        justifyContent: "flex-end"
     },
-    kodPocztowy: {
-        flex: 1,
-        flexBasis: 1,
-        width: 60
-    },
-    glownyTekst: {
-        fontSize: baseFontSize,
-        color: "#ffffff"
-    }
+    kodPocztowy: {flex: 1}
 });
