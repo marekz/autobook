@@ -14,8 +14,8 @@ function pobierzPrognoze(url) {
     return fetch(url)
         .then(response => response.json())
         .then(responseJSON => {
+            console.log(responseJSON.weather);
             return {
-                glowny: responseJSON.weather[0].main,
                 opis: responseJSON.weather[0].description,
                 temp: responseJSON.main.temp
             };

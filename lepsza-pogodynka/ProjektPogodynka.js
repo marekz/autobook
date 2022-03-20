@@ -64,14 +64,6 @@ export default class ProjektPogodynka extends Component {
         this._pobierzPrognozeDlaKodu(kod);
     };
 
-    // _handleTextChange = event => {
-    //     let kod = event.nativeEvent.text;
-    //     MapaPogody.pobierzPrognozeKod(kod).then(prognoza => {
-    //         this.setState({ prognoza: prognoza });
-    //     });
-    //     this.setState({ kod: event.nativeEvent.text });
-    // };
-
     render() {
         let tresc = null;
         if (this.state.prognoza !== null) {
@@ -83,6 +75,8 @@ export default class ProjektPogodynka extends Component {
                     />
                 </View>
             );
+        } else {
+            console.log("Test 123");
         }
 
         return (

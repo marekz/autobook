@@ -1,7 +1,7 @@
 import React, { Component }  from "react";
 import Button from "./../Button";
 import styles from "./style";
-import Geolocation from "@react-native-community/geolocation";
+import Geolocation from 'react-native-geolocation-service';
 
 export default class PrzyciskLokalizacji extends Component {
     _nacisniecie() {
