@@ -72,6 +72,8 @@ export default class ProjektPogodynka extends Component {
                     <Prognoza
                         opis = { this.state.prognoza.opis }
                         temp = { this.state.prognoza.temp }
+                        // opis = 'Opis'
+                        // temp = 'Temp'
                     />
                 </View>
             );
